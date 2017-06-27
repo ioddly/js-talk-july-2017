@@ -11,6 +11,4 @@ mixed familiarity with JavaScript and common frameworks.
 
 ## Slide outline
 
-- JavaScript: What JavaScript is, what the new language standards are
-
 ## Code outline

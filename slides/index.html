@@ -17,30 +17,29 @@
   </head>
   <body>
     <textarea id="source">
-
 # Brief history of JavaScript
 
 - Created in 10 days in 1995
 - Shipped with NetScape Navigator, became scripting language of the web
 - Standardized in 1997 as ECMAScript ("European Computer Manufacturer's Association")
 - Called ECMAScript to avoid trademark issues
-- Various implementations are generally called JavaScript
+- Browser implementations are generally called JavaScript
 - No new language standards from ECMAScript 3 in 1999 to 2009
 - ECMAScript 4 edition was abandoned due to disputes
 - ECMAScript 5 released in 2009, 5.1 in 2011
 - ECMAScript 6 released in 2015, called ES2015
+- ECMAScript 7 released in 2016, called ES2016
+- ES.Next refers to ongoing standardization efforts
 - Most of the features discussed today are part of ES2015
 - Browser support is variable
 
----
+--- 
 
-# How this talk works
-
-honk
+# WhatWG
 
 ---
 
-# Array.map, Array.filter, Array.reduce
+# Array.map
 
 Standard: ES5.1
 
@@ -192,7 +191,7 @@ myObject.name = "Fred";
 
 # Const/let best practices
 
-- Use const if variable is not reassigned
+- Use const if reference is not reassigned
 - Use let otherwise
 
 ---
@@ -232,9 +231,88 @@ Classes have getters and setters
 
 ---
 
+# Common containers
+
+Standard: ES2015
+
+- TypedArray (performant, immutable arrays of ints/floats)
+```javascript
+var array = new Uint8Array([255, 255, 255]);
+```
+
+Used in WebGL code, useful when dealing with binary data
+
+- Map
+
+Somewhat redundant with object
+
+- Set (unique values of any type)
+```javascript
+const mySet = new Set(['horse', 'dog']);
+console.log(mySet.has('horse')); // true
+console.log(mySet.has('cat')); // false
+```
+
+---
+
+# for/of loops
+
+```javascript
+var array = ["James", "Amy", "Mike"];
+
+for(var i = 0; i !== array.length; i++) {
+  console.log(array[i]);
+}
+```
+
+becomes
+
+```javascript
+const array = ["James", "Amy", "Mike"];
+
+for(let name of array) {
+  console.log(name);
+}
+```
+
+---
+
+# for/of loops 2
+
+- It can be used to easily iterate over the new data structures, function arguments, generators,
+  DOM elements
+
+```javascript
+function printAll() {
+  var args = [].slice.call(arguments);
+  for(var i = 0; i !== args.length; i++) {
+    console.log(args[i]);
+  }
+}
+```
+
+becomes
+
+```javascript
+function printAll() {
+  for(let arg of arguments) {
+    console.log(arg);
+  }
+}
+
+printAll(1,2,3);
+// 1
+// 2
+// 3
+```
+
+- for/of is extensible: You can create your own iterable objects &amp; classes
+
+---
+
 # Arrow functions
 
-Shorthand
+Shorter than writing functions
 
 ```javascript
 [1,2,3].reduce(function(a, b) {
@@ -261,9 +339,51 @@ Shorthand
 
 # Arrow functions 2
 
-Arrow functions have different binding rules
+Arrow functions have different binding rules.
+
+```javascript
+// Repeats message every second
+this.message = "Hello";
+
+setInterval(function() {
+  // Because `this` will be changed when this function is executed, 
+  // this will print "undefined" repeatedly
+  console.log(this.message);
+}, 1000)
+```
 
 ---
+
+# Arrow functions 3
+
+Old solution
+
+```javascript
+this.message = "message";
+
+var self = this;
+setInterval(function() {
+  // Create a closure with a variable referencing the object we want to use
+  console.log(self.message);
+}, 1000)
+```
+
+---
+
+# Arrow functions 4
+
+Arrow functions inherit `this` and `arguments` from the context they are written in
+
+```javascript
+this.message = "message";
+
+setInterval(() => {
+  // No additional code required to reference 'this'
+  console.log(this.message);
+}, 1000);
+```
+
+Very handy when working with classes, e.g. React components
 
 ---
 
@@ -277,15 +397,15 @@ let person = {
   age: 24
 };
 
-console.log("Name: " + person.name + ", age: " + person.age); 
-// Name: James, age: 24
+console.log("Name: '" + person.name + "', age: " + person.age); 
+// Name: 'James', age: 24
 ```
 
 ---
 
 # Template literals 2
 
-template literals make code much clearer
+template literals make code much cleaner
 
 ```javascript
 let person = {
@@ -293,7 +413,7 @@ let person = {
   age: 24
 }
 
-console.log(`Name: ${person.name}, age: ${person.age}`);
+console.log(`Name: '${person.name}', age: ${person.age}`);
 ```
 
 ---
@@ -353,7 +473,7 @@ var person = {
 ### becomes
 
 ```javascript
-let name = "James", age = 24, occupation = "Electrician;"
+let name = "James", age = 24, occupation = "Electrician";
 
 // Variable names without a colon are automatically used as property names
 let person = {name, age, occupation};
@@ -420,7 +540,7 @@ const person = {
   occupations: ["Electrician", "Plumber"]
 };
 
-const {name, age, [occupation1, occupation2]} = person;
+const {name, age, occupations: [occupation1, occupation2]} = person;
 
 console.log(name, age, occupation1, occupation2);
 // James 24 Electrician Plumber
@@ -443,7 +563,9 @@ printPerson({name: "James", age: 24});
 
 ---
 
-# Computed object properties
+# Computed property names
+
+Standard: ES2015
 
 ```javascript
 
@@ -492,9 +614,48 @@ console.log(person["salaryAsElectrician"]); // 50000
 
 Standard: ES2015
 
+Copying and merging objects
+
+```javascript
+var person = { name: "James", age: 24 };
+var person2 = {};
+person2.name = person2;
+person2.age = 24;
+```
+
+Or with jQuery
+
+```javascript
+var person = { name: "James", age: 24 };
+var person2 = $.extend({}, person)
+```
+
+```javascript
+var person = { name: "James", age: 24 };
+var person2 = Object.assign({}, person);
+```
+
 ---
 
-# Selectors
+# Object.assign 2
+
+Can be used to merge multiple objects
+
+```javascript
+var person = { name: "James", age: 24 };
+var spouse = { name: "Mary", age: 25 };
+
+Object.assign(person, {spouse: spouse});
+console.log(person);
+// { name: "James", age: 24, spouse: { name: "Mary", age: 25 }}
+
+```
+
+---
+
+# Selectors API
+
+
 
 ---
 
@@ -534,11 +695,11 @@ function sum(...numbers) {
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 ```
 
-#### nodejs + npm
+#### commonJS 
 
 ```javascript
-var fs = require("fs");
-var express = require("express");
+var $ = require("jquery");
+var bootstrap = require("bootstrap");
 ```
 
 #### es2015 modules
@@ -546,6 +707,33 @@ var express = require("express");
 ```javascript
 import $ from 'jquery';
 import bootstrap from 'bootstrap';
+```
+
+---
+
+# Modules 2
+
+ES2015 modules are static, and imports cannot be changed at runtime.
+
+```javascript
+import $ from 'jquery';
+
+$ = somethingElse; // error!
+```
+
+This allows an intelligent compiler to eliminate dead code.
+
+---
+
+# Modules 3 
+
+You can import specific fields of a module and rename them as you please, using a syntax similar
+to the object propertyshorthand
+
+```javascript
+import { get as GET, post as POST } from 'jquery';
+
+GET('/myData');
 ```
 
 ---
@@ -563,7 +751,7 @@ const element = <div>
 </div>
 ```
 
-compiles down to
+transpiles down to
 
 ```javascript
 var message = "Hello world";
@@ -591,7 +779,7 @@ var element = React.createElement(
 # Solution: transpilation
 
 - Support new language features by compiling new down to older standards
-- However, generally doesn't handle functions such as Object.assign, document.querySelector, etc
+- However, generally doesn't handle runtime functionality such as Object.assign, document.querySelector, etc
 
 ---
 
@@ -621,8 +809,6 @@ console.log(`Name: ${person.name}, age: ${person.age}`);
 compiles down to
 
 ```javascript
-"use strict";
-
 var name = "James";
 var age = 24;
 
@@ -640,10 +826,11 @@ console.log("Name: " + person.name + ", age: " + person.age);
 
 
     </textarea>
-    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
-    </script>
+    <script src="/remark-latest.min.js"></script>
     <script>
-      var slideshow = remark.create();
+      document.addEventListener('DOMContentLoaded', function() {
+        var slideshow = remark.create();
+      });
     </script>
   </body>
 </html>
