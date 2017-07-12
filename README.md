@@ -7,8 +7,16 @@ mixed familiarity with JavaScript and common frameworks.
 
 ## Further reading
 
-- [Mozilla Development Network](https://developer.mozilla.org). Best source of JavaScript
-  language documentation.
+- [Mozilla Development Network](https://developer.mozilla.org). Best source of JavaScript/HTML
+  documentation.
+
+- [caniuse](http://caniuse.com). Quickly check browser support for features you'd like to use.
+
+- [AirBNB Style Guide](https://github.com/airbnb/javascript). A style guide that will enforce the
+  use of many of these new features over old-style JavaScript.
+
+- [ESLint](http://eslint.org/). When configured to use the AirBNB style guide settings, a very
+  good way to incrementally learn these new features as you code.
 
 ## Slide outline
 
