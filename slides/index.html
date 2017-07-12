@@ -17,6 +17,10 @@
   </head>
   <body>
     <textarea id="source">
+# Modern JavaScript Development
+
+---
+
 # Brief history of JavaScript
 
 - Created in 10 days in 1995
@@ -29,85 +33,30 @@
 - ECMAScript 5 released in 2009, 5.1 in 2011
 - ECMAScript 6 released in 2015, called ES2015
 - ECMAScript 7 released in 2016, called ES2016
-- ES.Next refers to ongoing standardization efforts
+- ECMAScript 8 released in June 2017, called ES2017
+- ES.Next always refers to ongoing standardization efforts
 - Most of the features discussed today are part of ES2015
-- Browser support is variable
-
---- 
-
-# WhatWG
 
 ---
 
-# Array.map
+# HTML Standard
 
-Standard: ES5.1
-
-Loop over an array and create a new one
-
-```javascript
-var names = ["james", "amy", "mike"];
-var capitalizedNames = [];
-
-for(var i = 0; i !== names.length; i++) {
-  capitalizedNames.push(names[i].toUpperCase());
-}
-
-console.log(capitalizedNames);
-// ["JAMES", "AMY", "MIKE"]
-
-```
+- HTML4 in 2000
+- HTML5 finalized in 2014
+- Worked on by WhatWG (Web Hypertext Application Technology Working Group)
+- and W3C (World Wide Web Consortium)
+- WhatWG publishes a "Living Standard" which is subject to incremental changes
+- Some APIs today are part of HTML5, some are part of the Living Standard
 
 ---
 
-# Array.map 2
+# Browser support
 
-becomes
-
-```javascript
-var names = ["james", "amy", "mike"];
-var capitalizedNames = names.map(function(name) {
-  return name.toUpperCase();
-})
-
-console.log(capitalizedNames);
-// ["JAMES", "AMY", "MIKE"]
-```
-
----
-
-# Array.filter
-
-Create a new array of elements that meet certain criteria
-
-```javascript
-var people = [
-  {name: "Amy", age: 28 },
-  {name: "Mike", age: 14 }
-];
-
-var adults = people.filter(function(person) {
-  return person.age >= 18;
-});
-
-console.log(adults);
-// [{ name: "Amy", age: 28 }]
-```
-
----
-
-# Array.reduce
-
-Reduces an array to a single value
-
-```javascript
-function sum(numbers) {
-  return numbers.reduce(function(a, b) { return a + b; });
-}
-
-console.log(sum([2,3,4]));
-// 9
-```
+- Standards and browers are moving much more quickly now
+- Most consumer browsers are aggressively upgraded 
+- For example, 25% of web users as of June 2017 are on Chrome 58, released in April 2017
+- However, some users are on older browsers
+- We will discuss strategies to maintain compatibility with older browsers
 
 ---
 
@@ -146,6 +95,10 @@ notes
 - let is lexically scoped
 
 ```javascript
+
+let test = true;
+console.log(window.test); // undefined
+
 for(let i = 0; i !== 5; i++) {
   if(i === 3) {
     let text = "Hello, world";
@@ -191,71 +144,57 @@ myObject.name = "Fred";
 
 # Const/let best practices
 
+- Avoid using var/globals
 - Use const if reference is not reassigned
 - Use let otherwise
 
 ---
 
 # Classes
-
 Standard: ES2015
 
 ```javascript
-class Shape {
-  constructor(name) {
+class Animal {
+  constructor(species, sound) {
+    this.species = species;
+    this.sound = sound;
+  }
+
+  speak() {
+    console.log(`the ${this.species} says ${this.sound}`);
+  }
+}
+
+const dog = new Animal("dog", "woof!");
+dog.speak(); // the dog says woof!
+```
+
+---
+
+# Classes 2: inheritance and static methods.
+
+```javascript
+class Dog extends Animal {
+  constructor(name, breed) {
+    super("dog", "woof!");
     this.name = name;
+    this.breed = breed;
+  }
+
+  static makeDalmatian(name) {
+    return new Dog(name, "Dalmatian")
   }
 }
 
-const shape = new Shape("circle");
-```
-
----
-
-# Classes 2
-
-Classes can be extended
-
-```javascript
-class Circle extends Shape {
-  constructor(radius) {
-    super("circle");
-    this.radius = radius;
-  }
-}
-```
-
-# Classes 3
-
-Classes have getters and setters
-
----
-
-# Common containers
-
-Standard: ES2015
-
-- TypedArray (performant, immutable arrays of ints/floats)
-```javascript
-var array = new Uint8Array([255, 255, 255]);
-```
-
-Used in WebGL code, useful when dealing with binary data
-
-- Map
-
-Somewhat redundant with object
-
-- Set (unique values of any type)
-```javascript
-const mySet = new Set(['horse', 'dog']);
-console.log(mySet.has('horse')); // true
-console.log(mySet.has('cat')); // false
+const dog = Dog.makeDalmation("Spot");
+// calls new Dog("Spot", "Dalmatian");
 ```
 
 ---
 
 # for/of loops
+
+Standard: ES2015
 
 ```javascript
 var array = ["James", "Amy", "Mike"];
@@ -279,8 +218,7 @@ for(let name of array) {
 
 # for/of loops 2
 
-- It can be used to easily iterate over the new data structures, function arguments, generators,
-  DOM elements
+- Can be used to easily iterate over things other than arrays, such as function arguments
 
 ```javascript
 function printAll() {
@@ -310,36 +248,98 @@ printAll(1,2,3);
 
 ---
 
+# Generators
+
+Standard: ES2015
+
+Generators are functions which *yield* multiple values by pausing in their execution.
+
+---
+
+# Generators 2
+
+```javascript
+function* generator() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+var g = generator();
+console.log(g.next().value); // 1
+console.log(g.next().value); // 2
+console.log(g.next().value); // 3
+```
+
+---
+
+# Generators 3
+
+Generators often yield the result of loops
+
+For example, an even number generator
+
+``` javascript
+function* evens(n) {
+  for(let i = 0; i <= n; i += 2) {
+    yield i;
+  }
+}
+
+var g = evens(6); // Generate even numbers up to 6
+console.log(g.next().value); // 0
+console.log(g.next().value); // 2
+console.log(g.next().value); // 4
+console.log(g.next().value); // 6
+```
+
+---
+
+# for/of loops 3: custom generator
+
+```javascript
+function* range(n, step) {
+  for(let i = 0; i <= n; i += step) {
+    yield i;
+  }
+}
+
+for(let i of range(10, 2)) {
+  console.log(i);
+}
+// 0 2 4 6 8 10
+```
+
+---
+
 # Arrow functions
 
 Shorter than writing functions
 
 ```javascript
-[1,2,3].reduce(function(a, b) {
+function add(a, b) {
   return a + b;
-});
+}
 ```
 
 ```javascript
+// No braces or return needed if returning an expression
+const add = (a, b) => a + b;
 
-// No braces needed if returning an expression
-[1,2,3].reduce((a,b) => a + b);
-
-// You can use return as well if you need to do something more complex
-[1,2,3].reduce((a, b) => {
+// You can use braces + return as well if you need to do something more complex
+const add = (a, b) => {
   return a + b;
-})
+}
 
-// If there is exactly one parameter, no parentheses are required
-["james", "mike", "amy"].map(n => n.toUpperCase());
-
+// No parentheses needed for single-argument functions
+const add2 = a => a + 2
 ```
 
 ---
 
 # Arrow functions 2
 
-Arrow functions have different binding rules.
+The important thing is that arrow functions have different binding rules.
 
 ```javascript
 // Repeats message every second
@@ -361,9 +361,9 @@ Old solution
 ```javascript
 this.message = "message";
 
+// Create a closure with a variable referencing the object we want to use
 var self = this;
 setInterval(function() {
-  // Create a closure with a variable referencing the object we want to use
   console.log(self.message);
 }, 1000)
 ```
@@ -387,6 +387,19 @@ Very handy when working with classes, e.g. React components
 
 ---
 
+# Default function arguments
+
+```javascript
+function raiseToPower(number, exponent = 2) {
+  return Math.pow(number, exponent);
+}
+
+console.log(raiseToPower(4)); // 4^2 = 16
+console.log(raiseToPower(4, 3)); // 4^3 = 64
+```
+
+---
+
 # Template literals 1
 
 lots of javascript code uses string concatenation
@@ -405,7 +418,7 @@ console.log("Name: '" + person.name + "', age: " + person.age);
 
 # Template literals 2
 
-template literals make code much cleaner
+Uses backticks
 
 ```javascript
 let person = {
@@ -414,6 +427,7 @@ let person = {
 }
 
 console.log(`Name: '${person.name}', age: ${person.age}`);
+// Name: 'James', age: 24
 ```
 
 ---
@@ -446,7 +460,6 @@ These can become quite elaborate
 
 For example: hyperx is a library that allows you to build HTML from a string
 
-
 ```javascript
 function click() {
   alert("Button was clicked");
@@ -477,6 +490,25 @@ let name = "James", age = 24, occupation = "Electrician";
 
 // Variable names without a colon are automatically used as property names
 let person = {name, age, occupation};
+```
+
+---
+
+# Object property shorthand 2
+
+Methods
+
+```javascript
+
+let person = {
+  name: "James",
+  age: 24,
+  toString() {
+    return `Name: ${this.name}, age: ${this.age}`;
+  }
+}
+
+console.log(person.toString()); // Name: James, age: 24
 ```
 
 ---
@@ -568,7 +600,6 @@ printPerson({name: "James", age: 24});
 Standard: ES2015
 
 ```javascript
-
 var field = "spouse";
 
 var person = {
@@ -597,15 +628,15 @@ const person = {
 Computed object properties can be any valid expression
 
 ```javascript
-const occupationAndSalary = ["Electrician", 50000]
+var year = 2015;
 
 const person = {
   name: "James",
   age: 24,
-  [`salaryAs${occupationAndSalary[0]}`]: occupationAndSalary[1],
+  [`salary${year}`]: 50000
 }
 
-console.log(person["salaryAsElectrician"]); // 50000
+console.log(person['salary2015']); // 50000
 ```
 
 ---
@@ -614,56 +645,46 @@ console.log(person["salaryAsElectrician"]); // 50000
 
 Standard: ES2015
 
-Copying and merging objects
+Copy and merge objects
 
 ```javascript
-var person = { name: "James", age: 24 };
-var person2 = {};
-person2.name = person2;
-person2.age = 24;
+var person = { name: "James", age: 24}
+
+Object.assign(person, { age: 25 });
 ```
 
-Or with jQuery
+Compare jQuery
 
 ```javascript
-var person = { name: "James", age: 24 };
-var person2 = $.extend({}, person)
-```
+var person = { name: "James ", age: 24}
 
-```javascript
-var person = { name: "James", age: 24 };
-var person2 = Object.assign({}, person);
+$.extend(person, { age: 25 })
 ```
 
 ---
 
 # Object.assign 2
 
-Can be used to merge multiple objects
+Also handy for copying objects
 
 ```javascript
 var person = { name: "James", age: 24 };
-var spouse = { name: "Mary", age: 25 };
 
-Object.assign(person, {spouse: spouse});
-console.log(person);
-// { name: "James", age: 24, spouse: { name: "Mary", age: 25 }}
+var person2 = Object.assign({}, person);
 
+person2.name = "Nathan";
+
+console.log(person); // { name: "James", age: 24 }
+console.log(person2); // { name: "Nathan", age: 24 }
 ```
 
 ---
 
-# Selectors API
+# Rest parameters
 
+Standard: ES2015
 
-
----
-
-# Spread operator
-
-So cutting edge, it's not even part of a standard yet
-
-Can be used in function arguments
+Can be used in function arguments, for example a function with variable arguments
 
 ```javascript
 function sum() {
@@ -685,6 +706,84 @@ function sum(...numbers) {
 
 ---
 
+# Spread operator
+
+Can also be used in reverse, to apply a function against multiple parameters
+
+```javascript
+console.log(...[1, 2, 3])
+
+// equivalent to console.log(1, 2, 3);
+```
+
+And combined with destructuring bind
+
+```javascript
+const [first, ...rest] = [1, 2, 3, 4, 5];
+
+console.log(first, rest); // 1, [2, 3, 4, 5]
+
+```
+
+---
+
+# Spread operator 2: property spread
+
+Not in any standard yet, just a proposal
+
+Can be used to copy and modify objects
+
+```javascript
+var person = {name: "James", age: 24}
+var person2 = {...person, age: 25}
+// Equivalent to Object.assign({}, person, { age: 25 });
+```
+
+Really helps with Redux.
+
+---
+
+# Promises 1
+
+```javascript
+step1(function (value1) {
+    step2(value1, function(value2) {
+      // Do something with value2
+    });
+});
+```
+
+---
+
+# Promises 2
+
+```javascript
+step1()
+  .then(value1 => step2(value1))
+  .done(value2 => {
+    // Do something with value 2
+  }).catch(() => {
+    // Catch errors at any point during this
+
+  });
+```
+
+---
+
+# Async/await
+
+Standard: ES2017
+
+```javascript
+
+async () =>
+  const value1 = await step1();
+  const value2 = await step2(value1);
+  console.log(value2);
+```
+
+---
+
 # Modules
 
 #### globals
@@ -695,23 +794,38 @@ function sum(...numbers) {
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 ```
 
-#### commonJS 
+---
+
+# commonjs
 
 ```javascript
 var $ = require("jquery");
 var bootstrap = require("bootstrap");
-```
 
-#### es2015 modules
+module.exports = {
+  myFunction: function() {},
+  myVariable: true,
+  // ....
+}
+```
+---
+
+# es2015 modules
 
 ```javascript
 import $ from 'jquery';
 import bootstrap from 'bootstrap';
+
+export function myFunction() {
+
+}
+
+export const myVariable = true;
 ```
 
 ---
 
-# Modules 2
+# es2015 modules 2
 
 ES2015 modules are static, and imports cannot be changed at runtime.
 
@@ -721,19 +835,60 @@ import $ from 'jquery';
 $ = somethingElse; // error!
 ```
 
-This allows an intelligent compiler to eliminate dead code.
+This allows an intelligent bundler to eliminate dead code. ("tree-shaking")
 
 ---
 
-# Modules 3 
+# Selectors API
 
-You can import specific fields of a module and rename them as you please, using a syntax similar
-to the object propertyshorthand
+Find HTML elements by class, ID, element type, etc
+
+Heavily inspired by jQuery
+
+Compare
+```javascript
+$("div.myClass") // select <div class="myClass"></div>
+```
 
 ```javascript
-import { get as GET, post as POST } from 'jquery';
+document.querySelector("div.myClass");
+```
 
-GET('/myData');
+---
+
+# window.fetch
+
+Old style, pretty awkward
+
+```javascript
+var req = new XMLHttpRequest();
+req.addEventListener("load", onLoad);
+req.open('GET', 'https://example.com/example.json');
+req.send();
+```
+
+Or jQuery
+
+```javascript
+$.get('https://example.com/example.json', function(response) {
+
+});
+```
+
+---
+
+# window.fetch 2
+
+Standard: WHATWG Living Standard
+
+Built into browser, based on Promises
+
+```javascript
+window.fetch('https://example.com/example.json')
+  .then(response => response.json())
+  .then(result => {
+
+  });
 ```
 
 ---
@@ -770,9 +925,7 @@ var element = React.createElement(
 
 # Problem
 
-- Not all browsers support all of these features
-- Most consumer browsers are aggressively upgraded
-- Some users may be on old browsers
+Browser support is highly variable
 
 ---
 
@@ -821,9 +974,18 @@ console.log("Name: " + person.name + ", age: " + person.age);
 
 # Webpack
 
+- Handles running various preprocessors, bundling and compressing resulting code and static
+resources
+- Not required for compatibility, but useful to handle a complex build process
+- In combination with ES2015 modules, can remove unused code
+
+???
+
+stop here for livecoding
 
 ---
 
+# More information
 
     </textarea>
     <script src="/remark-latest.min.js"></script>

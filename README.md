@@ -7,7 +7,8 @@ mixed familiarity with JavaScript and common frameworks.
 
 ## Further reading
 
-
+- [Mozilla Development Network](https://developer.mozilla.org). Best source of JavaScript
+  language documentation.
 
 ## Slide outline
 

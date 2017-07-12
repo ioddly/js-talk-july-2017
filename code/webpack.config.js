@@ -1,5 +1,5 @@
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/index2.jsx',
 
   output: {
     filename: './build/bundle.js'
@@ -8,12 +8,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['es2015'],
+            presets: ['es2015', 'react'],
           },
         },
       }
