@@ -1,139 +1,83 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
 
-let setGlobalState, getGlobalState;
-
-const EMOJI_SUN = String.fromCodePoint(0x2600); // ☀️
-const EMOJI_CLOUD = String.fromCodePoint(0x2601); //☁
-
-class WeatherReport extends Component {
-  fetchWeather() {
-    window.fetch(`http://api.openweathermap.org/data/2.5/weather?zip=${this.props.zipCode},us&appid=0fbbf897fdc8751bb1b5eb559319fe18&units=imperial`)
-      .then(response => response.json())
-      .then(json => {
-        if (json.cod === '404') {
-          this.setState({ error: `Could not find weather for ${this.props.zipCode}` });
-          return;
-        }
-
-        const { name, main } = json;
-        const { humidity, temp } = main;
-        const { description } = json.weather[0];
-        
-        this.setState({ name, humidity, temp, description });
-      });
-  }
-
-  componentWillMount() {
-    this.state = {};
-    this.fetchWeather();
-  }
-
-  removeReport() {
-    setGlobalState({ zipCodes: getGlobalState().zipCodes.filter(zip => zip !== this.props.zipCode) });
-  }
-
-  render() {
-    if(this.state.error) {
-      return <div className="card">
-        <div className="card-block">
-          <button className="btn btn-warning btn-sm" onClick={() => this.removeReport()}>Remove</button>
-          <p>{this.state.error}</p>
-        </div>
-      </div>;
-    }
-
-    if(!this.state.name) {
-      return <p>Loading weather...</p>;
-    }
-
-    let emoji = EMOJI_SUN;
-
-    if (this.state.description !== 'clear sky') {
-      emoji = EMOJI_CLOUD;
-    }
-
-    return <div className="card">
-      <div className="card-block">
-        <span style={{ 'fontSize': '2em' }}>{emoji}</span>
-        {this.state.name} ({this.props.zipCode})
-
-        <div className="float-right" style={{'display': 'inline'}}>
-          <button className="btn btn-warning btn-sm" onClick={() => this.removeReport()}>
-            Remove report
-          </button>
-        </div>
-
-        <div>{this.state.humidity}% humidity</div>
-        <div>{this.state.temp}* temperature</div>
-      </div>
+const Report = ({name, temp, humidity, description, zip}) => {
+  return <div className="card">
+    <div className="card-block">
+      <p>{name} ({zip})</p>
+      <p>Temperature: {temp} *F</p>
+      <p>Humidity: {humidity}%</p>
+      <p>{description}</p>
     </div>
-  }
-}
-
-class WeatherControls extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  addZip(e) {
-    e.preventDefault();
-
-    if(this.zipInput.value.length !== 5) {
-      this.setState({ error: `Zip codes must be five digits long :(`})
-      return;
-    }
-
-    const zipNumber = parseInt(this.zipInput.value, 10);
-
-    if(isNaN(zipNumber)) {
-      this.setState({ error: `${this.zipInput.value} is not a valid zip code :(` });
-      return;
-    }
-
-    const newZipCodes = this.props.zipCodes.slice();
-    newZipCodes.push(this.zipInput.value);
-
-    setGlobalState({ zipCodes: newZipCodes });
-  }
-
-  render() {
-    return <div>
-      {this.state.error && <p>{this.state.error}</p>}
-      <form className="form-inline" onSubmit={(e) => this.addZip(e)}>
-        <input className="form-control" type="text" ref={(elt) => { this.zipInput = elt }} />
-        <button className="btn btn-primary">Add zipcode</button>
-      </form>
-    </div>
-  }
+  </div>;
 }
 
 class WeatherApp extends Component {
   constructor() {
     super();
 
-    this.state = { zipCodes: [] };
+    this.state = {
+      reports: []
+    };
+  }
 
-    setGlobalState = (state) => {
-      this.setState(state);
+  fetchWeather(zip) {
+    return window.fetch(`http://api.openweathermap.org/data/2.5/weather?zip=${zip},us&appid=0fbbf897fdc8751bb1b5eb559319fe18&units=imperial`)
+      .then(response => response.json())
+      .then(json => {
+        if (json.cod === '404') {
+          this.setState({ error: `${zip} is an invalid zip` });
+          return null;
+        }
+
+        const { name, main: { temp, humidity }, weather: [{description}] } = json;
+
+        const object = { name, temp, humidity, description, zip };
+        console.log(object);
+        const updatedReports = this.state.reports;
+        updatedReports.push(object);
+        this.setState({ reports: updatedReports, error: '' })
+      });
+  }
+
+  addZip(event) {
+    event.preventDefault();
+
+    const zipText = this.element.value;
+
+    if (zipText.length !== 5) {
+      this.setState({ error: `${zipText} should be 5 digits long`});
+      return;
     }
 
-    getGlobalState = () => this.state;
+    const zipCode = parseInt(zipText, 10);
+
+    if (isNaN(zipCode)) {
+      this.setState({ error: `${zipText} is not a valid number`});
+      return;
+    }
+
+    this.fetchWeather(zipCode);
   }
 
   render() {
-    const reports = this.state.zipCodes.map((zip, i) => 
-      <WeatherReport key={i} zipCode={zip} />
-    );
-
     return <div className="container">
-      <WeatherControls zipCodes={this.state.zipCodes} />
-      {reports}
+      <div>
+
+        {this.state.error && <p>{this.state.error}</p>}
+
+        <form className="form-inline" onSubmit={event => this.addZip(event)}>
+          <input className="form-control" type="text" placeholder="Enter zip code" 
+            ref={elt => this.element = elt} />
+          <button type="submit" className="btn btn-primary">Add zipcode</button>
+        </form>
+      </div>
+      <p>Displaying {this.state.reports.length} weather reports</p>
+      {this.state.reports.map((report, i) => <Report {...report} key={i} />)}
     </div>;
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  render(<WeatherApp />, document.getElementById('root'));
+  ReactDOM.render(<WeatherApp />, document.getElementById('root'));
 });
