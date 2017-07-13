@@ -63,16 +63,16 @@ class WeatherApp extends Component {
   render() {
     return <div className="container">
       <div>
-
         {this.state.error && <p>{this.state.error}</p>}
 
         <form className="form-inline" onSubmit={event => this.addZip(event)}>
-          <input className="form-control" type="text" placeholder="Enter zip code" 
+          <input className="form-control" type="text" placeholder="Enter zip code"
             ref={elt => this.element = elt} />
           <button type="submit" className="btn btn-primary">Add zipcode</button>
         </form>
       </div>
       <p>Displaying {this.state.reports.length} weather reports</p>
+      <button onClick={() => this.setState({reports: []})}>Clear reports</button>
       {this.state.reports.map((report, i) => <Report {...report} key={i} />)}
     </div>;
   }

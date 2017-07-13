@@ -1,9 +1,23 @@
 A talk I gave in July 2017 about modern JavaScript programming. The first half is a series of
-slides demonstrating new features in ES2015 and later standards, and how to use tools like
-Webpack, Babel and polyfills to make them available. The second half is a live-coding exercise in
-which I build an app along with an ad hoc web framework, demonstrating the value of using a
-framework as well as the power of the new features. Intended to be instructive to an audience of
-mixed familiarity with JavaScript and common frameworks.
+slides demonstrating new language features in ES2015 and later standards, and how to use tools
+like Webpack, Babel and polyfills to make them available. The second half is a live-coding
+exercise in which I build a simple weather report app with React while explaining VDOM,
+presentational vs. container components, and other basics of writing vanilla React code.
+
+Intended to be instructive to an audience of mixed familiarity with JavaScript and common
+frameworks.
+
+## Links
+
+### [View slides](https://rawgit.com/ioddly/js-talk-july-2017/master/slides/index.html#1)
+### [Finished code](https://github.com/ioddly/js-talk-july-2017/blob/master/code/src/index.jsx)
+
+## Concepts mentioned in the talk
+
+- [The difference between Virtual DOM and DOM](http://reactkungfu.com/2015/10/the-difference-between-virtual-dom-and-dom/). 
+
+- [Presentational and Container Components](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0).
+  The creator of Redux explains several ways of thinking about components.
 
 ## Further reading
 
@@ -18,6 +32,10 @@ mixed familiarity with JavaScript and common frameworks.
 - [ESLint](http://eslint.org/). When configured to use the AirBNB style guide settings, a very
   good way to incrementally learn these new features as you code.
 
-## Slide outline
+## How to run and modify the example app
 
-## Code outline
+From this directory
+
+    $ cd code
+    $ npm i
+    $ ./node_modules/.bin/webpack-dev-server
