@@ -32,6 +32,12 @@ frameworks.
 - [ESLint](http://eslint.org/). When configured to use the AirBNB style guide settings, a very
   good way to incrementally learn these new features as you code.
 
+- [create-react-app](https://github.com/facebookincubator/create-react-app). create-react-app, creates a React app
+  without requiring configuration of various tools.
+
+- [Redux](http://redux.js.org/) and [MobX](https://github.com/mobxjs/mobx). State management for
+  more complex React applications.
+
 ## How to run and modify the example app
 
 From this directory

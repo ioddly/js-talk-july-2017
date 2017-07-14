@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 const Report = ({name, temp, humidity, description, zip}) => {
+  // const name = props.
   return <div className="card">
     <div className="card-block">
       <p>{name} ({zip})</p>

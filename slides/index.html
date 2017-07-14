@@ -17,11 +17,11 @@
   </head>
   <body>
     <textarea id="source">
-# Modern JavaScript Development
+## Intro to ES2015 & React
 
 ---
 
-# Brief history of JavaScript
+## Brief history of JavaScript
 
 - Created in 10 days in 1995
 - Shipped with NetScape Navigator, became scripting language of the web
@@ -39,7 +39,7 @@
 
 ---
 
-# HTML Standard
+## HTML Standard
 
 - HTML4 in 2000
 - HTML5 finalized in 2014
@@ -50,7 +50,7 @@
 
 ---
 
-# Browser support
+## Browser support
 
 - Standards and browers are moving much more quickly now
 - Most consumer browsers are aggressively upgraded 
@@ -60,7 +60,7 @@
 
 ---
 
-# var/globals to const/let 
+#### var/globals to const/let 
 
 Standard: ES2015
 
@@ -92,7 +92,7 @@ notes
 
 # var/globals to const/let 2
 
-- let is lexically scoped
+- let is block scoped
 
 ```javascript
 
@@ -113,7 +113,7 @@ console.log(text);
 
 ---
 
-# var/globals to const/let 3
+#### var/globals to const/let 3
 
 - const follows the same rules as let, but is immutable (cannot be re-assigned)
 
@@ -126,7 +126,7 @@ myVariable = false;
 
 ---
 
-# var/globals to const/let 4
+#### var/globals to const/let 4
 
 - note that const only creates immutable references, not data structures
 
@@ -142,15 +142,7 @@ myObject.name = "Fred";
 
 ---
 
-# Const/let best practices
-
-- Avoid using var/globals
-- Use const if reference is not reassigned
-- Use let otherwise
-
----
-
-# Classes
+#### Classes
 Standard: ES2015
 
 ```javascript
@@ -161,17 +153,17 @@ class Animal {
   }
 
   speak() {
-    console.log(`the ${this.species} says ${this.sound}`);
+    console.log(this.species, 'says', this.sound);
   }
 }
 
 const dog = new Animal("dog", "woof!");
-dog.speak(); // the dog says woof!
+dog.speak(); // dog says woof
 ```
 
 ---
 
-# Classes 2: inheritance and static methods.
+#### Classes 2: inheritance 
 
 ```javascript
 class Dog extends Animal {
@@ -180,19 +172,60 @@ class Dog extends Animal {
     this.name = name;
     this.breed = breed;
   }
-
-  static makeDalmatian(name) {
-    return new Dog(name, "Dalmatian")
-  }
 }
 
-const dog = Dog.makeDalmation("Spot");
-// calls new Dog("Spot", "Dalmatian");
+const dog = new Dog('Spot', 'Dalmatian');
 ```
 
 ---
 
-# for/of loops
+#### Classes 3: Getters, setters
+
+```javascript
+class Account {
+  constructor(assets, debt) { 
+    this.assets = assets;
+    this.debt = debt;
+  }
+
+  get netWorth() {
+    return this.assets - this.debt;
+  }
+  
+  set netWorth(value) {
+    if(value > 0) {
+      this.assets = value;
+      this.debt = 0;
+    } else {
+      this.assets = 0;
+      this.debt = value;
+    }
+  }
+}
+```
+
+---
+
+#### Classes 4: Static methods
+
+```javascript
+class Account {
+  constructor(assets, debt) {
+    this.assets = assets;
+    this.debt = debt;
+  }
+
+  static makeNewAccount() {
+    return new Account(0, 0);
+  }
+}
+
+Account.makeNewAccount();
+```
+
+---
+
+#### for/of loops
 
 Standard: ES2015
 
@@ -216,7 +249,7 @@ for(let name of array) {
 
 ---
 
-# for/of loops 2
+#### for/of loops 2
 
 - Can be used to easily iterate over things other than arrays, such as function arguments
 
@@ -248,7 +281,7 @@ printAll(1,2,3);
 
 ---
 
-# Generators
+#### Generators
 
 Standard: ES2015
 
@@ -256,7 +289,7 @@ Generators are functions which *yield* multiple values by pausing in their execu
 
 ---
 
-# Generators 2
+#### Generators 2
 
 ```javascript
 function* generator() {
@@ -273,7 +306,7 @@ console.log(g.next().value); // 3
 
 ---
 
-# Generators 3
+#### Generators 3
 
 Generators often yield the result of loops
 
@@ -295,16 +328,16 @@ console.log(g.next().value); // 6
 
 ---
 
-# for/of loops 3: custom generator
+#### for/of loops 3: custom generator
 
 ```javascript
-function* range(n, step) {
-  for(let i = 0; i <= n; i += step) {
+function* evens(n) {
+  for(let i = 0; i <= n; i += 2) {
     yield i;
   }
 }
 
-for(let i of range(10, 2)) {
+for(let i of evens(10)) {
   console.log(i);
 }
 // 0 2 4 6 8 10
@@ -312,7 +345,7 @@ for(let i of range(10, 2)) {
 
 ---
 
-# Arrow functions
+#### Arrow functions
 
 Shorter than writing functions
 
@@ -337,42 +370,20 @@ const add2 = a => a + 2
 
 ---
 
-# Arrow functions 2
+#### Arrow functions 2
 
-The important thing is that arrow functions have different binding rules.
-
-```javascript
-// Repeats message every second
-this.message = "Hello";
-
-setInterval(function() {
-  // Because `this` will be changed when this function is executed, 
-  // this will print "undefined" repeatedly
-  console.log(this.message);
-}, 1000)
-```
-
----
-
-# Arrow functions 3
-
-Old solution
+Arrow functions inherit `this` and `arguments` from the context they are written in.
 
 ```javascript
 this.message = "message";
 
-// Create a closure with a variable referencing the object we want to use
 var self = this;
 setInterval(function() {
+  // To reference this.message, we have to save off 'this' as a separate variable
+  // Because this will have changed inside of this callback function
   console.log(self.message);
 }, 1000)
 ```
-
----
-
-# Arrow functions 4
-
-Arrow functions inherit `this` and `arguments` from the context they are written in
 
 ```javascript
 this.message = "message";
@@ -387,7 +398,7 @@ Very handy when working with classes, e.g. React components
 
 ---
 
-# Default function arguments
+#### Default function arguments
 
 ```javascript
 function raiseToPower(number, exponent = 2) {
@@ -400,7 +411,7 @@ console.log(raiseToPower(4, 3)); // 4^3 = 64
 
 ---
 
-# Template literals 1
+#### Template literals 1
 
 lots of javascript code uses string concatenation
 
@@ -416,7 +427,7 @@ console.log("Name: '" + person.name + "', age: " + person.age);
 
 ---
 
-# Template literals 2
+#### Template literals 2
 
 Uses backticks
 
@@ -432,46 +443,7 @@ console.log(`Name: '${person.name}', age: ${person.age}`);
 
 ---
 
-# Template literals 3
-
-You can write custom template literals that turn strings into any kind of value you want.
-
-For example, a CSS color parser that breaks down a string like '#ff0000' into an array like [255, 0, 0]
-
-```javascript
-function color(strings) {
-  const string = strings[0];
-  return [
-    parseInt(string.slice(1, 3), 16),
-    parseInt(string.slice(3, 5), 16),
-    parseInt(string.slice(5, 7), 16)
-  ];
-}
-
-const red = color`#ff0000`;
-console.log(red); // [255, 0, 0]
-```
-
----
-
-# Template literals 4
-
-These can become quite elaborate
-
-For example: hyperx is a library that allows you to build HTML from a string
-
-```javascript
-function click() {
-  alert("Button was clicked");
-}
-
-var button = hx`<button onclick=${click}>Click me!</button>`
-console.log(button); // <button></button>
-```
-
----
-
-# Object property shorthand
+#### Object property shorthand
 
 ```javascript
 var name = "James", age = 24, occupation = "Electrician";
@@ -483,7 +455,7 @@ var person = {
 }
 ```
 
-### becomes
+#### becomes
 
 ```javascript
 let name = "James", age = 24, occupation = "Electrician";
@@ -494,7 +466,7 @@ let person = {name, age, occupation};
 
 ---
 
-# Object property shorthand 2
+#### Object property shorthand 2
 
 Methods
 
@@ -513,7 +485,7 @@ console.log(person.toString()); // Name: James, age: 24
 
 ---
 
-# Destructuring bind
+#### Destructuring bind
 
 ``` javascript
 var color = [255, 0, 0];
@@ -522,7 +494,7 @@ var green = color[1];
 var blue = color[2];
 ```
 
-### becomes
+#### becomes
 
 ```javascript
 const color = [255, 0, 0];
@@ -531,7 +503,7 @@ const [red, green, blue] = color;
 
 ---
 
-# Destructuring bind 2
+#### Destructuring bind 2
 
 also works on objects
 
@@ -547,7 +519,7 @@ var age = person.age;
 var occupation = person.occupation;
 ```
 
-### becomes
+#### becomes
 
 ```javascript
 const person = {
@@ -561,7 +533,7 @@ const {name, age, occupation} = person;
 
 ---
 
-# Destructuring bind 3
+#### Destructuring bind 3
 
 Can be nested arbitrarily
 
@@ -580,7 +552,7 @@ console.log(name, age, occupation1, occupation2);
 
 ---
 
-# Destructuring bind 4
+#### Destructuring bind 4
 
 Can even be used in function parameters
 
@@ -589,59 +561,14 @@ function printPerson({name, age}) {
   console.log(name, age);
 }
 
-printPerson({name: "James", age: 24});
+var person = { name: "James", age: 24 };
+printPerson(person);
 // James 24 
 ```
 
 ---
 
-# Computed property names
-
-Standard: ES2015
-
-```javascript
-var field = "spouse";
-
-var person = {
-  name: "James",
-  age: 24
-}
-
-person[field] = "Mary";
-```
-
-## becomes
-
-```javascript
-const field = "spouse";
-const person = {
-  name: "James",
-  age: 24,
-  [field]: "Mary"
-}
-```
-
----
-
-# Computed object properties 2
-
-Computed object properties can be any valid expression
-
-```javascript
-var year = 2015;
-
-const person = {
-  name: "James",
-  age: 24,
-  [`salary${year}`]: 50000
-}
-
-console.log(person['salary2015']); // 50000
-```
-
----
-
-# Object.assign
+#### Object.assign
 
 Standard: ES2015
 
@@ -663,9 +590,9 @@ $.extend(person, { age: 25 })
 
 ---
 
-# Object.assign 2
+#### Object.assign 2
 
-Also handy for copying objects
+Also handy for copying objects by passing a new object as the first argument
 
 ```javascript
 var person = { name: "James", age: 24 };
@@ -680,11 +607,11 @@ console.log(person2); // { name: "Nathan", age: 24 }
 
 ---
 
-# Rest parameters
+#### Rest parameters
 
 Standard: ES2015
 
-Can be used in function arguments, for example a function with variable arguments
+Rest parameters put extra arguments to a function in a real Array
 
 ```javascript
 function sum() {
@@ -706,7 +633,7 @@ function sum(...numbers) {
 
 ---
 
-# Spread operator
+#### Spread operator
 
 Can also be used in reverse, to apply a function against multiple parameters
 
@@ -727,7 +654,7 @@ console.log(first, rest); // 1, [2, 3, 4, 5]
 
 ---
 
-# Spread operator 2: property spread
+#### Spread operator 2: property spread
 
 Not in any standard yet, just a proposal
 
@@ -743,48 +670,57 @@ Really helps with Redux.
 
 ---
 
-# Promises 1
+#### Promises 1
+
+Doing things asynchronously in JavaScript often results in "callback hell"
 
 ```javascript
 step1(function (value1) {
     step2(value1, function(value2) {
-      // Do something with value2
+      step3(value2, function(value3) {
+        // Do something with value3
+      });
     });
 });
 ```
 
 ---
 
-# Promises 2
+#### Promises 2
+
+Standard: ES2015
 
 ```javascript
 step1()
   .then(value1 => step2(value1))
-  .done(value2 => {
-    // Do something with value 2
+  .then(value2 => step3(value2))
+  .done(value3 => {
+    // Do something with value3
   }).catch(() => {
-    // Catch errors at any point during this
-
+    // Catch errors at any point during this.
   });
 ```
 
 ---
 
-# Async/await
+#### Async/await
 
 Standard: ES2017
 
 ```javascript
-
-async () =>
+async function myFunction() {
   const value1 = await step1();
   const value2 = await step2(value1);
-  console.log(value2);
+  const value3 = await step3(value2);
+  return value3;
+}
+// returns a promise
 ```
+
 
 ---
 
-# Modules
+##### Modules
 
 #### globals
 
@@ -792,11 +728,17 @@ async () =>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  console.log('hello world');
+});
+</script>
 ```
 
 ---
 
-# commonjs
+#### commonjs
 
 ```javascript
 var $ = require("jquery");
@@ -810,7 +752,7 @@ module.exports = {
 ```
 ---
 
-# es2015 modules
+#### es2015 modules
 
 ```javascript
 import $ from 'jquery';
@@ -825,7 +767,7 @@ export const myVariable = true;
 
 ---
 
-# es2015 modules 2
+#### es2015 modules 2
 
 ES2015 modules are static, and imports cannot be changed at runtime.
 
@@ -837,28 +779,9 @@ $ = somethingElse; // error!
 
 This allows an intelligent bundler to eliminate dead code. ("tree-shaking")
 
----
+#### window.fetch
 
-# Selectors API
-
-Find HTML elements by class, ID, element type, etc
-
-Heavily inspired by jQuery
-
-Compare
-```javascript
-$("div.myClass") // select <div class="myClass"></div>
-```
-
-```javascript
-document.querySelector("div.myClass");
-```
-
----
-
-# window.fetch
-
-Old style, pretty awkward
+XMLHTTPRequest, pretty verbose
 
 ```javascript
 var req = new XMLHttpRequest();
@@ -877,7 +800,7 @@ $.get('https://example.com/example.json', function(response) {
 
 ---
 
-# window.fetch 2
+#### window.fetch 2
 
 Standard: WHATWG Living Standard
 
@@ -893,59 +816,48 @@ window.fetch('https://example.com/example.json')
 
 ---
 
-# JSX
+#### JSX
 
 - mix HTML or other XML-like formats with JavaScript code
 - not a proposed part of any standard
 - used by react, react native, and other web frameworks
 
-```
-const message = "Hello world";
-const element = <div>
-  <p style={{color: 'green'}}>{message}</p>
-</div>
+```javascript
+const element = <p>Hello world</p>
 ```
 
 transpiles down to
 
 ```javascript
-var message = "Hello world";
-var element = React.createElement(
-  "div",
-  null,
-  React.createElement(
-    "p",
-    { style: { color: 'green' } },
-    message
-  )
-);
+const element = React.createElement('p', null, 'Hello world');
 ```
 
 ---
 
-# Problem
+#### Problem
 
 Browser support is highly variable
 
 ---
 
-# Solution: transpilation
+#### Solution: transpilation
 
+- Transpilation = transforming source code to source code
 - Support new language features by compiling new down to older standards
-- However, generally doesn't handle runtime functionality such as Object.assign, document.querySelector, etc
+- However, transpilation generally doesn't handle runtime functionality such as Object.assign, document.querySelector, etc
 
 ---
 
-# Solution: polyfills
+#### Solution: polyfills
 
 - A small bit of code that checks whether a feature is supported in a browser
 - If not, will load more code and extend the environment with new functionality
 
 ---
 
-# Babel
+#### Babel
 
-- from Facebook
+- transpiler from Facebook
 
 - very extensible, supports multiple standards as well as plugins to add new features such as JSX
 and spread operator
@@ -972,7 +884,7 @@ console.log("Name: " + person.name + ", age: " + person.age);
 
 ---
 
-# Webpack
+#### Webpack
 
 - Handles running various preprocessors, bundling and compressing resulting code and static
 resources
@@ -985,7 +897,9 @@ stop here for livecoding
 
 ---
 
-# ESLint + AirBNB style guide
+#### Thanks for putting up with me.
+
+[upvalue.io]
 
 ---
     </textarea>
