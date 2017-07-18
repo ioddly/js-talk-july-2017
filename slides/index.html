@@ -39,17 +39,6 @@
 
 ---
 
-## HTML Standard
-
-- HTML4 in 2000
-- HTML5 finalized in 2014
-- Worked on by WhatWG (Web Hypertext Application Technology Working Group)
-- and W3C (World Wide Web Consortium)
-- WhatWG publishes a "Living Standard" which is subject to incremental changes
-- Some APIs today are part of HTML5, some are part of the Living Standard
-
----
-
 ## Browser support
 
 - Standards and browers are moving much more quickly now
@@ -179,34 +168,8 @@ const dog = new Dog('Spot', 'Dalmatian');
 
 ---
 
-#### Classes 3: Getters, setters
 
-```javascript
-class Account {
-  constructor(assets, debt) { 
-    this.assets = assets;
-    this.debt = debt;
-  }
-
-  get netWorth() {
-    return this.assets - this.debt;
-  }
-  
-  set netWorth(value) {
-    if(value > 0) {
-      this.assets = value;
-      this.debt = 0;
-    } else {
-      this.assets = 0;
-      this.debt = value;
-    }
-  }
-}
-```
-
----
-
-#### Classes 4: Static methods
+#### Classes 3: Static methods
 
 ```javascript
 class Account {
@@ -215,12 +178,12 @@ class Account {
     this.debt = debt;
   }
 
-  static makeNewAccount() {
+  static makeEmptyAccount() {
     return new Account(0, 0);
   }
 }
 
-Account.makeNewAccount();
+Account.makeEmptyAccount();
 ```
 
 ---
@@ -443,48 +406,6 @@ console.log(`Name: '${person.name}', age: ${person.age}`);
 
 ---
 
-#### Object property shorthand
-
-```javascript
-var name = "James", age = 24, occupation = "Electrician";
-
-var person = {
-  name: name,
-  age: age,
-  occupation: occupation
-}
-```
-
-#### becomes
-
-```javascript
-let name = "James", age = 24, occupation = "Electrician";
-
-// Variable names without a colon are automatically used as property names
-let person = {name, age, occupation};
-```
-
----
-
-#### Object property shorthand 2
-
-Methods
-
-```javascript
-
-let person = {
-  name: "James",
-  age: 24,
-  toString() {
-    return `Name: ${this.name}, age: ${this.age}`;
-  }
-}
-
-console.log(person.toString()); // Name: James, age: 24
-```
-
----
-
 #### Destructuring bind
 
 ``` javascript
@@ -568,45 +489,6 @@ printPerson(person);
 
 ---
 
-#### Object.assign
-
-Standard: ES2015
-
-Copy and merge objects
-
-```javascript
-var person = { name: "James", age: 24}
-
-Object.assign(person, { age: 25 });
-```
-
-Compare jQuery
-
-```javascript
-var person = { name: "James ", age: 24}
-
-$.extend(person, { age: 25 })
-```
-
----
-
-#### Object.assign 2
-
-Also handy for copying objects by passing a new object as the first argument
-
-```javascript
-var person = { name: "James", age: 24 };
-
-var person2 = Object.assign({}, person);
-
-person2.name = "Nathan";
-
-console.log(person); // { name: "James", age: 24 }
-console.log(person2); // { name: "Nathan", age: 24 }
-```
-
----
-
 #### Rest parameters
 
 Standard: ES2015
@@ -615,7 +497,7 @@ Rest parameters put extra arguments to a function in a real Array
 
 ```javascript
 function sum() {
-  var numbers = [].slice.call(arguments);
+ var numbers = [].slice.call(arguments);
   
   return numbers.reduce(function(a, b) { return a + b });
 }
@@ -651,22 +533,6 @@ const [first, ...rest] = [1, 2, 3, 4, 5];
 console.log(first, rest); // 1, [2, 3, 4, 5]
 
 ```
-
----
-
-#### Spread operator 2: property spread
-
-Not in any standard yet, just a proposal
-
-Can be used to copy and modify objects
-
-```javascript
-var person = {name: "James", age: 24}
-var person2 = {...person, age: 25}
-// Equivalent to Object.assign({}, person, { age: 25 });
-```
-
-Really helps with Redux.
 
 ---
 
@@ -713,8 +579,8 @@ async function myFunction() {
   const value2 = await step2(value1);
   const value3 = await step3(value2);
   return value3;
+  // returns a promise
 }
-// returns a promise
 ```
 
 
@@ -779,6 +645,8 @@ $ = somethingElse; // error!
 
 This allows an intelligent bundler to eliminate dead code. ("tree-shaking")
 
+---
+
 #### window.fetch
 
 XMLHTTPRequest, pretty verbose
@@ -802,7 +670,7 @@ $.get('https://example.com/example.json', function(response) {
 
 #### window.fetch 2
 
-Standard: WHATWG Living Standard
+Standard: WHATWG Living HTML Standard
 
 Built into browser, based on Promises
 
@@ -897,9 +765,12 @@ stop here for livecoding
 
 ---
 
-#### Thanks for putting up with me.
+## Thanks for putting up with me.
 
-[upvalue.io]
+# [upvalue.io](upvalue.io)
+
+slides & code available
+
 
 ---
     </textarea>

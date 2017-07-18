@@ -80,5 +80,9 @@ class WeatherApp extends Component {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+
+});
+
+document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(<WeatherApp />, document.getElementById('root'));
 });
