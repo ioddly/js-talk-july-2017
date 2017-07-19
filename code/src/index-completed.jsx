@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
+import { fetch } from './fetch';
+//const fetch = window.fetch;
+
 const Report = ({name, temp, humidity, description, zip}) => {
   // const name = props.
   return <div className="card mb-1">
@@ -23,9 +26,10 @@ class WeatherApp extends Component {
   }
 
   async fetchWeather(zip) {
-    const response = await window.fetch(`http://api.openweathermap.org/data/2.5/weather?zip=${zip},us&appid=0fbbf897fdc8751bb1b5eb559319fe18&units=imperial`);
+    const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?zip=${zip},us&appid=0fbbf897fdc8751bb1b5eb559319fe18&units=imperial`);
     const json = await response.json();
     
+    console.log(JSON.stringify(json));
     if(json) {
       if (json.cod === '404') {
         this.setState({ error: `${zip} is an invalid zip` });
