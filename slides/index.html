@@ -17,7 +17,7 @@
   </head>
   <body>
     <textarea id="source">
-## Intro to ES2015 & React
+## Intro to ES2015 with React
 
 ---
 
@@ -111,22 +111,6 @@ const myVariable = true;
 
 // TypeError: Assignment to constant variable
 myVariable = false; 
-```
-
----
-
-#### var/globals to const/let 4
-
-- note that const only creates immutable references, not data structures
-
-```javascript
-// Valid code 
-const myArray = [1,2,3];
-myArray.push(4);
-
-// Valid code
-const myObject = {name: "Jim"};
-myObject.name = "Fred";
 ```
 
 ---
@@ -241,70 +225,6 @@ printAll(1,2,3);
 ```
 
 - for/of is extensible: You can create your own iterable objects &amp; classes
-
----
-
-#### Generators
-
-Standard: ES2015
-
-Generators are functions which *yield* multiple values by pausing in their execution.
-
----
-
-#### Generators 2
-
-```javascript
-function* generator() {
-  yield 1;
-  yield 2;
-  yield 3;
-}
-
-var g = generator();
-console.log(g.next().value); // 1
-console.log(g.next().value); // 2
-console.log(g.next().value); // 3
-```
-
----
-
-#### Generators 3
-
-Generators often yield the result of loops
-
-For example, an even number generator
-
-``` javascript
-function* evens(n) {
-  for(let i = 0; i <= n; i += 2) {
-    yield i;
-  }
-}
-
-var g = evens(6); // Generate even numbers up to 6
-console.log(g.next().value); // 0
-console.log(g.next().value); // 2
-console.log(g.next().value); // 4
-console.log(g.next().value); // 6
-```
-
----
-
-#### for/of loops 3: custom generator
-
-```javascript
-function* evens(n) {
-  for(let i = 0; i <= n; i += 2) {
-    yield i;
-  }
-}
-
-for(let i of evens(10)) {
-  console.log(i);
-}
-// 0 2 4 6 8 10
-```
 
 ---
 
@@ -497,7 +417,7 @@ Rest parameters put extra arguments to a function in a real Array
 
 ```javascript
 function sum() {
- var numbers = [].slice.call(arguments);
+  var numbers = [].slice.call(arguments);
   
   return numbers.reduce(function(a, b) { return a + b });
 }
@@ -557,7 +477,7 @@ step1(function (value1) {
 Standard: ES2015
 
 ```javascript
-step1()
+step1() // returns a Promise
   .then(value1 => step2(value1))
   .then(value2 => step3(value2))
   .done(value3 => {
@@ -694,7 +614,7 @@ window.fetch('https://example.com/example.json')
 const element = <p>Hello world</p>
 ```
 
-transpiles down to
+transpiles down to *normal JavaScript function calls*
 
 ```javascript
 const element = React.createElement('p', null, 'Hello world');
@@ -711,15 +631,13 @@ Browser support is highly variable
 #### Solution: transpilation
 
 - Transpilation = transforming source code to source code
-- Support new language features by compiling new down to older standards
-- However, transpilation generally doesn't handle runtime functionality such as Object.assign, document.querySelector, etc
-
----
+- Support new language features by compiling new features to old-style JavaScript
+- However, transpilation generally doesn't handle runtime functionality such as window.fetch
 
 #### Solution: polyfills
 
-- A small bit of code that checks whether a feature is supported in a browser
-- If not, will load more code and extend the environment with new functionality
+- A polyfill is basically a small bit of code that checks whether or not a feature is supported
+- If not, will extend the browser environment with that functionality
 
 ---
 
@@ -728,7 +646,6 @@ Browser support is highly variable
 - transpiler from Facebook
 
 - very extensible, supports multiple standards as well as plugins to add new features such as JSX
-and spread operator
 
 ```javascript
 const name = "James";
