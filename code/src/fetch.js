@@ -1,5 +1,4 @@
-// fetch.jsx - fake weather fetch without internet, in case internet doesn't work
-
+// fetch.js - fake weather window.fetch without internet, in case internet doesn't work
 
 export const reports = {
   '90210': 

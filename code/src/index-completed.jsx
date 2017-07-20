@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import { fetch } from './fetch';
-//const fetch = window.fetch;
+// import { fetch } from './fetch';
+// const fetch = window.fetch;
 
 const Report = ({name, temp, humidity, description, zip}) => {
   // const name = props.
@@ -28,7 +28,7 @@ class WeatherApp extends Component {
   async fetchWeather(zip) {
     const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?zip=${zip},us&appid=0fbbf897fdc8751bb1b5eb559319fe18&units=imperial`);
     const json = await response.json();
-    
+
     console.log(JSON.stringify(json));
     if(json) {
       if (json.cod === '404') {
@@ -39,7 +39,6 @@ class WeatherApp extends Component {
       const { name, main: { temp, humidity }, weather: [{description}] } = json;
 
       const object = { name, temp, humidity, description, zip };
-      console.log(object);
 
       const updatedReports = this.state.reports;
       updatedReports.push(object);
