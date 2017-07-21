@@ -85,7 +85,6 @@ notes
 - let is block scoped
 
 ```javascript
-
 let test = true;
 console.log(window.test); // undefined
 
@@ -184,7 +183,7 @@ function add(a, b) {
 ```
 
 ```javascript
-// No braces or return needed if returning an expression
+// Equivalent to the above function
 const add = (a, b) => a + b;
 
 // You can use braces + return as well if you need to do something more complex
@@ -223,19 +222,6 @@ setInterval(() => {
 ```
 
 Very handy when working with deeply-nested callbacks
-
----
-
-#### Default function arguments
-
-```javascript
-function raiseToPower(number, exponent = 2) {
-  return Math.pow(number, exponent);
-}
-
-console.log(raiseToPower(4)); // 4^2 = 16
-console.log(raiseToPower(4, 3)); // 4^3 = 64
-```
 
 ---
 
@@ -414,6 +400,7 @@ async function myFunction() {
 
 <script type="text/javascript">
 $(document).ready(function() {
+  // hopefully things are available by now...
   console.log('hello world');
 });
 </script>

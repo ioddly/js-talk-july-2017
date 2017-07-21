@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
   entry: './src/index.jsx',
 
   output: {
@@ -22,3 +22,5 @@ module.exports = {
 
   devtool: 'source-map',
 }
+
+module.exports = config;

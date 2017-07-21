@@ -23,8 +23,6 @@ frameworks.
 - [Presentational and Container Components](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0).
   The creator of Redux explains several ways of thinking about components.
 
-
-
 ## Further reading
 
 - [Mozilla Development Network](https://developer.mozilla.org). Best source of JavaScript/HTML
@@ -41,8 +39,7 @@ frameworks.
 - [create-react-app](https://github.com/facebookincubator/create-react-app). create-react-app, creates a React app
   without requiring configuration of various tools.
 
-- [preact](https://github.com/developit/preact). A 3kb implementation that is mostly compatible
-  with React.
+- [preact](https://github.com/developit/preact). A 3kb React-alike library.
 
 - [Redux](http://redux.js.org/) and [MobX](https://github.com/mobxjs/mobx). State management for
   more complex React applications.
