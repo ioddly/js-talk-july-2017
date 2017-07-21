@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+/*
 const WeatherReport = (props) => {
   return <div className="card">
     <div className="card-block">
@@ -88,3 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(<WeatherApp />, document.getElementById('root'));
 
 });
+
+*/
+
+import './index-completed.jsx';

@@ -4,14 +4,15 @@ import ReactDOM from 'react-dom';
 // import { fetch } from './fetch';
 // const fetch = window.fetch;
 
-const Report = ({name, temp, humidity, description, zip}) => {
+const Report = ({removeReport, report: {name, temp, humidity, description, zip}}) => {
   // const name = props.
   return <div className="card mb-1">
     <div className="card-block">
-      <p>{name} ({zip})</p>
+      <h1>{name} ({zip})</h1>
       <p>Temperature: {temp} *F</p>
       <p>Humidity: {humidity}%</p>
       <p>{description}</p>
+      <button className="btn btn-danger" onClick={() => removeReport()}>Remove report</button>
     </div>
   </div>;
 }
@@ -66,6 +67,10 @@ class WeatherApp extends Component {
     this.fetchWeather(zipCode);
   }
 
+  removeReport(i) {
+    this.setState({ reports: this.state.reports.filter((r, ie) => i !== ie) });
+  }
+
   render() {
     return <div className="container">
       <div>
@@ -80,7 +85,7 @@ class WeatherApp extends Component {
       <p>Displaying {this.state.reports.length} weather reports</p>
       <button className="btn btn-secondary" onClick={() => this.setState({reports: []})}>Clear reports</button>
       <div className="mt-1">
-        {this.state.reports.map((report, i) => <Report {...report} key={i} />)}
+        {this.state.reports.map((report, i) => <Report report={report} key={i} removeReport={() => this.removeReport(i)} />)}
       </div>
     </div>;
   }

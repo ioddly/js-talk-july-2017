@@ -6,9 +6,6 @@ like Webpack, Babel and polyfills to make them available. The second half is a l
 exercise in which I build a simple weather report app with React while explaining VDOM,
 presentational vs. container components, and other basics of writing vanilla React code.
 
-Intended to be instructive to an audience of mixed familiarity with JavaScript and common
-frameworks.
-
 ## Links
 
 ### [View slides](https://rawgit.com/ioddly/js-talk-july-2017/master/slides/index.html#1)
