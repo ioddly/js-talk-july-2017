@@ -1,3 +1,5 @@
+# JS Talk July 2017
+
 A talk I gave in July 2017 about modern JavaScript programming. The first half is a series of
 slides demonstrating new language features in ES2015 and later standards, and how to use tools
 like Webpack, Babel and polyfills to make them available. The second half is a live-coding
