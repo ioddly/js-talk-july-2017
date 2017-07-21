@@ -17,7 +17,8 @@
   </head>
   <body>
     <textarea id="source">
-## Intro to ES2015 with React
+
+<h1 style="text-align:center;">Intro to Modern JavaScript with React</h1>
 
 ---
 
@@ -172,62 +173,6 @@ Account.makeEmptyAccount();
 
 ---
 
-#### for/of loops
-
-Standard: ES2015
-
-```javascript
-var array = ["James", "Amy", "Mike"];
-
-for(var i = 0; i !== array.length; i++) {
-  console.log(array[i]);
-}
-```
-
-becomes
-
-```javascript
-const array = ["James", "Amy", "Mike"];
-
-for(let name of array) {
-  console.log(name);
-}
-```
-
----
-
-#### for/of loops 2
-
-- Can be used to easily iterate over things other than arrays, such as function arguments
-
-```javascript
-function printAll() {
-  var args = [].slice.call(arguments);
-  for(var i = 0; i !== args.length; i++) {
-    console.log(args[i]);
-  }
-}
-```
-
-becomes
-
-```javascript
-function printAll() {
-  for(let arg of arguments) {
-    console.log(arg);
-  }
-}
-
-printAll(1,2,3);
-// 1
-// 2
-// 3
-```
-
-- for/of is extensible: You can create your own iterable objects &amp; classes
-
----
-
 #### Arrow functions
 
 Shorter than writing functions
@@ -258,13 +203,13 @@ const add2 = a => a + 2
 Arrow functions inherit `this` and `arguments` from the context they are written in.
 
 ```javascript
-this.message = "message";
+this.message = "Hello world";
 
-var self = this;
+var object = this;
 setInterval(function() {
   // To reference this.message, we have to save off 'this' as a separate variable
   // Because this will have changed inside of this callback function
-  console.log(self.message);
+  console.log(object.message);
 }, 1000)
 ```
 
@@ -277,7 +222,7 @@ setInterval(() => {
 }, 1000);
 ```
 
-Very handy when working with classes, e.g. React components
+Very handy when working with deeply-nested callbacks
 
 ---
 
@@ -409,53 +354,6 @@ printPerson(person);
 
 ---
 
-#### Rest parameters
-
-Standard: ES2015
-
-Rest parameters put extra arguments to a function in a real Array
-
-```javascript
-function sum() {
-  var numbers = [].slice.call(arguments);
-  
-  return numbers.reduce(function(a, b) { return a + b });
-}
-
-sum(2,3,4); // 2 + 3 + 4 => 9
-```
-
-becomes
-
-```javascript
-function sum(...numbers) {
-  return numbers.reduce((a, b) => a + b);
-}
-```
-
----
-
-#### Spread operator
-
-Can also be used in reverse, to apply a function against multiple parameters
-
-```javascript
-console.log(...[1, 2, 3])
-
-// equivalent to console.log(1, 2, 3);
-```
-
-And combined with destructuring bind
-
-```javascript
-const [first, ...rest] = [1, 2, 3, 4, 5];
-
-console.log(first, rest); // 1, [2, 3, 4, 5]
-
-```
-
----
-
 #### Promises 1
 
 Doing things asynchronously in JavaScript often results in "callback hell"
@@ -502,7 +400,6 @@ async function myFunction() {
   // returns a promise
 }
 ```
-
 
 ---
 
@@ -590,16 +487,27 @@ $.get('https://example.com/example.json', function(response) {
 
 #### window.fetch 2
 
-Standard: WHATWG Living HTML Standard
-
 Built into browser, based on Promises
 
 ```javascript
 window.fetch('https://example.com/example.json')
   .then(response => response.json())
   .then(result => {
-
+    // do something with result
   });
+```
+
+Or in an async function
+
+```javascript
+
+async function() {
+  const response = await window.fetch('https://example.com/example.json');
+  const result = await response.json();
+
+  // result is available from here
+}
+
 ```
 
 ---
@@ -614,7 +522,7 @@ window.fetch('https://example.com/example.json')
 const element = <p>Hello world</p>
 ```
 
-transpiles down to *normal JavaScript function calls*
+equivalent to *normal JavaScript function calls*
 
 ```javascript
 const element = React.createElement('p', null, 'Hello world');
@@ -632,7 +540,8 @@ Browser support is highly variable
 
 - Transpilation = transforming source code to source code
 - Support new language features by compiling new features to old-style JavaScript
-- However, transpilation generally doesn't handle runtime functionality such as window.fetch
+- However, transpilation generally doesn't handle runtime functionality such as window.fetch or
+  Promises.
 
 #### Solution: polyfills
 
@@ -676,18 +585,175 @@ resources
 - Not required for compatibility, but useful to handle a complex build process
 - In combination with ES2015 modules, can remove unused code
 
+---
+
+#### React
+
+React is a library for building interactive user interfaces in a declarative style.
+
+In combination with the new language features, it is a very nice way to build interactive web
+applications with code that is easy to reason about.
+
 ???
 
 stop here for livecoding
 
 ---
 
+#### JSX
+
+```javascript
+ReactDOM.render(<p>Hello world</p>, document.body);
+```
+
+React applications work by building up a Virtual DOM with JSX syntax and components.
+
+Recall that JSX results in normal objects, which can be stored in variables & arrays, and
+returned as the result of functions
+
+```javascript
+const paragraph = <p>Hello world</p>; // perfectly valid code
+```
+
+```javascript
+const paragraph = React.createElement('p', null, 'Hello world'); // equivalent to the above
+
+```
+
+???
+
+slides for if livecoding doesn't work for some reason
+
+---
+
+#### Components
+
+Most React applications are composed of components
+
+```javascript
+class App extends React.Component {
+  render() {
+    return <p>Hello world</p>
+  }
+}
+```
+
+Components can be mixed in with normal HTML in JSX syntax
+
+```javascript
+ReactDOM.render(<App />, document.body);
+// will result in an instance of App being created &amp; rendered
+```
+
+---
+
+#### Virtual Document Object Model
+
+ReactDOM.render takes the tree of components and HTML elements that results from this
+and creates actual instances of the components, only updating the page when absolutely necessary.
+
+This is called the virtual document object model (virtual DOM or VDOM for short).
+
+The primary advantage of this is that the programmer does not have to think about updating the
+actual page, only about the state of his application.
+
+---
+
+#### VDOM 2
+
+There are other advantages to this abstraction
+
+For example, there is ReactDOMServer which allows pages to be rendered on the server-side; this
+can massively speed up applications by not requiring clients to render pages.
+
+---
+
+#### VDOM 3
+
+Many libraries use a similar concept, although it may not be implemented in exactly the same way.
+
+---
+
+#### State
+
+Some components have state. 
+
+```javascript
+class Counter extends React.Component {
+  constructor() {
+    // Initialize state
+    this.state = { message: "Hello world" };
+  }
+
+  render() {
+    return <div>
+      <p>{this.state.message}</p>
+    </div>
+  }
+}
+```
+
+If this.state is changed using the setState method at any point, the app will be re-rendered
+automatically
+
+---
+
+#### State 2
+
+Other components without state can be written as simple functions
+
+```javascript
+const Message = (props) => <p>Message: {props.text}</p>
+
+ReactDOM.render(<Message text="Hello world" />, document.body);
+```
+
+---
+
+#### Types of components
+
+React applications are a mix of components which do more complex things like 
+- handle user actions
+- dispatch asynchronous requests
+- have internal state 
+
+And simpler components which handle display
+
+These can be thought of as *container* and *presentational* components
+
+Even more optimizations are available when we know a component is not going to need things like
+internal state
+
+---
+
+#### A simple counter application
+
+```javascript
+class Counter extends React.Component {
+  constructor() {
+    this.state = { count: 0 };
+  }
+
+  increment() {
+    this.setState({ count: this.state.count + 1 });
+  }
+
+  render() {
+    return <div>
+      <p>Clicked {this.state.count} times</p>
+      <button onClick={() => this.increment()}>Click me</button>
+    </div>
+  }
+}
+```
+
+---
+
 ## Thanks for putting up with me.
 
-# [upvalue.io](upvalue.io)
+# [upvalue.io/talks](upvalue.io/talks)
 
-slides & code available
-
+Slides and code available from here.
 
 ---
     </textarea>

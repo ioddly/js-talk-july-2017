@@ -16,8 +16,12 @@ frameworks.
 
 - [The difference between Virtual DOM and DOM](http://reactkungfu.com/2015/10/the-difference-between-virtual-dom-and-dom/). 
 
+- [React Components, Elements and Instances](https://facebook.github.io/react/blog/2015/12/18/react-components-elements-and-instances.html)
+
 - [Presentational and Container Components](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0).
   The creator of Redux explains several ways of thinking about components.
+
+
 
 ## Further reading
 
@@ -34,6 +38,9 @@ frameworks.
 
 - [create-react-app](https://github.com/facebookincubator/create-react-app). create-react-app, creates a React app
   without requiring configuration of various tools.
+
+- [preact](https://github.com/developit/preact). A 3kb implementation that is mostly compatible
+  with React.
 
 - [Redux](http://redux.js.org/) and [MobX](https://github.com/mobxjs/mobx). State management for
   more complex React applications.
