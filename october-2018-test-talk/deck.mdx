@@ -1,0 +1,325 @@
+import { CodeSurfer } from 'mdx-deck-code-surfer';
+import { Appear } from 'mdx-deck';
+import codeTheme from 'prism-react-renderer/themes/vsDarkPlus';
+export theme from './theme';
+
+<script async src="https://platform.twitter.com/widgets.js"></script>
+
+## Woodlands Area Software Enthusiasts
+
+### woodlandstech.org
+
+```notes
+Introduce the group, tell people to get on Slack
+```
+
+---
+
+## About me
+
+```notes
+basically working FT for client where im the frontend guy
+mention they are hiring java + react devs
+```
+
+---
+
+# Testing Frontend Applications
+## With React, Jest & react-testing-library
+
+```notes
+what tests are
+how they can be helpful or harmful
+how to write frontend tests
+```
+
+---
+## Tests
+
+<Appear>
+  <p>Programs that run small portions of our application</p>
+  <p>Increase confidence in your programs</p>
+  <p>Cheap way to prevent costly mistakes</p>
+</Appear>
+
+```notes
+Go down list
+
+After:
+
+How many of you write tests?
+How many of you write as many tests as you should?
+```
+---
+
+![](https://msdnshared.blob.core.windows.net/media/MSDNBlogsFS/prod.evol.blogs.msdn.com/CommunityServer.Blogs.Components.WeblogFiles/00/00/01/32/02/metablogapi/8054.image_thumb_35C6E986.png)
+
+```notes
+Everything I just said was a lie
+```
+---
+
+## Tests
+
+<ul>
+  <Appear>
+    <p>Represent additional code that we have to maintain</p>
+    <div>
+      <p>⬇</p>
+      <p>Should increase developer productivity</p> 
+    </div>
+    <p>Should increase confidence in our code</p>
+    <p>Should be easy to maintain</p>
+  </Appear>
+</ul>
+
+```notes
+Go down slides
+```
+
+---
+
+## My situation
+
+```notes
+group in norway is very serious
+writing tests for ees
+writing tests isn't bad
+```
+
+---
+
+<CodeSurfer
+  code={require("!raw-loader!./square1.js")}
+  theme={codeTheme}
+/>
+
+```notes
+How would you test this?
+```
+
+---
+
+<CodeSurfer
+  code={require("!raw-loader!./square3.js")}
+  theme={codeTheme}
+/>
+
+```notes
+talk about jest 
+jest is from facebook
+react defacto standard
+how were js tests before jest
+
+go over test
+mention test file structure
+```
+
+---
+
+<CodeSurfer
+  code={require("!raw-loader!./squaremock.test.js")}
+  theme={codeTheme}
+/>
+
+```notes
+this is most of the surface area of jest
+```
+
+---
+
+import WikiSearch from './WikiSearch';
+
+## Now test this: `<WikiSearch />`
+
+<WikiSearch />
+
+```notes
+Now that we all know how to use Jest
+George Washington
+how do we write a test like square for this?
+```
+
+---
+
+<CodeSurfer
+  code={require("!raw-loader!./square2.js")}
+  theme={codeTheme}
+  steps={[
+    { tokens: {1: [7], 3: [5] }},
+    { tokens: {1: [11,12,13], 3: [11] }}
+  ]}
+/>
+
+
+```notes
+typical test case
+what do we care about here
+```
+
+---
+
+import WikiSearch2 from './WikiSearch2';
+
+## `<WikiSearch />`
+
+<WikiSearch2  />
+
+---
+
+# react-testing-library
+
+<Appear>
+  <p>From Kent C. Dodds</p>
+  <p>Interact with frontend like a real user</p>
+  <p>Search through the DOM, don't take it apart</p>
+</Appear>
+
+```notes
+dom-testing-library, vue-testing-library
+```
+
+---
+
+<CodeSurfer
+  code={require("!raw-loader!./WikiSearchtest1.js")}
+  theme={codeTheme}
+/>
+
+```notes
+This is actually a valuable test
+Render path is probably 25+% of your code
+```
+
+---
+
+<CodeSurfer
+  code={require("!raw-loader!./WikiSearchtest2.js")}
+  theme={codeTheme}
+  steps={[
+    { tokens: { 1: [4,5,6,7,8 ]} },
+    { lines: [2] },
+    { range: [4,5] },
+    { range: [6,7] },
+    { range: [8,10] },
+    { range: [11,12] },
+    { range: [1,20] },
+  ]}
+/>
+
+---
+
+```
+> jest --coverage
+
+ PASS  ./WikiSearch.test.js
+ PASS  ./square.test.js
+---------------|----------|----------|----------|----------|-------------------|
+File           |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
+---------------|----------|----------|----------|----------|-------------------|
+All files      |      100 |      100 |      100 |      100 |                   |
+ WikiSearch.js |      100 |      100 |      100 |      100 |                   |
+---------------|----------|----------|----------|----------|-------------------|
+```
+
+---
+
+## What we didn't care about
+
+<Appear>
+  <p>DOM structure</p>
+  <p>State & methods</p>
+</Appear>
+
+```notes
+Just as important as what we didn't test
+```
+
+---
+
+## Mocking
+
+<Appear>
+  <p>Mocking APIs: a little goes a long way</p>
+  <p>Don't mock frontend stuff, just actually use it</p>
+</Appear>
+
+```notes
+Explain what mocking is
+```
+
+---
+
+## getByTestId
+
+```
+<div onClick={something} data-testid="my-div">
+
+getByTestId('my-div');
+```
+
+```notes
+sometimes there are things you can't visually search for
+kent c. dodds advises against this
+```
+
+---
+
+## That was a little contrived
+
+```notes
+Obviously my goal is to make myself look good, 
+let's talk about how to test real programs
+```
+
+---
+
+## React components are pretty testable
+
+Unidirectional ↣ data ↣ flow
+
+```notes
+React components are already built to work in terms of inputs and outputs
+Even most complex components, while they might be harder to set up, follow this rule
+```
+
+---
+
+## How this works in practice
+
+<p>Test:application code is at about 1:5</p>
+<p>Coverage: 60%</p>
+<p>Did this in about a week</p>
+
+```notes
+wrote this myself in about a week
+```
+
+---
+
+## Frontend testing principles
+
+<ul>
+  <Appear>
+    <p>Think of your components & tests in terms of inputs and outputs</p>
+    <p>Try to interact with your components like a user</p>
+    <p>Don't test implementation details</p>
+    <p>Don't mock stuff when it's trivial to use the real thing</p>
+  </Appear>
+</ul>
+
+---
+
+## What questions do you all have?
+
+---
+
+## Thanks
+
+[https://upvalue.io](https://upvalue.io)
+
+[@upvalueio](https://twitter.com/upvalueio)
+
+```notes
+Take a picture
+```

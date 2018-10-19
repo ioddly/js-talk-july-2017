@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TypeScript</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      h1, h2, h3 {
+        font-family: 'Droid Serif';
+        font-weight: normal;
+      }
+      .remark-slide-content { font-size: 24px; }
+      .remark-code { font-size: 24px; }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+<h1 style="text-align:center;">You Got Types in My JavaScript</h1>
+---
+
+JavaScript is dynamically typed
+
+```javascript
+let x = 5;
+x = "cat";
+x = {name: "Dave"};
+// all valid things to do
+```
+
+---
+
+Just because JavaScript is dynamically typed, doesn't mean there aren't rules about what can and
+cannot be done with types
+
+e.g. calling a string method on a number
+
+```javascript
+let x = 5;
+x.slice(0);
+// obviously an error
+```
+
+---
+
+In larger programs, it's not always evident to the programmer or language runtime what type a
+variable might have
+
+```javascript
+function something(x) {
+  x.doSomething();
+}
+```
+
+---
+
+## The nightmare project
+
+- A giant iOS application, written in CoffeeScript using "Titanium SDK"
+
+- Time from compilation to running on an emulator or device was about 5 minutes
+
+- Any typos would crash the program
+
+- There was no way to evaluate JS expressions in the running program
+
+---
+
+![typescript](http://mherman.org/assets/img/blog/typescript-logo.png)
+
+- From Microsoft, 2012
+
+---
+
+# What is TypeScript?
+
+- Static type checker for JavaScript
+
+- Strict superset of JavaScript
+
+- Doesn't have its own runtime
+
+---
+
+Static typing is a way of making assertions about what values will be at compile time.
+
+```typescript
+let x : number = 5;
+x.slice(0);
+// Compiler error!
+```
+
+As we'll see, static and dynamic typing is more of a spectrum than a true/false proposition.
+
+---
+
+## What are the benefits of using TypeScript?
+
+- Tighter feedback loop: catch more errors without having to run a program.
+
+- More robust programs: prevents certain classes of errors
+
+- Write less tests
+
+- Better editing &amp; refactoring support 
+
+---
+
+## Statically typed languages can be very verbose
+
+Some real Java code I wrote last year
+
+```java
+Handler handler = new Handler(Looper.getMainLooper());
+
+final String alarmName = intent.getStringExtra("name");
+
+ReactApplication reapp = ((ReactApplication) context.getApplicationContext());
+ReactInstanceManager manager = reapp.getReactNativeHost().getReactInstanceManager();
+ReactContext recontext = manager.getCurrentReactContext();
+```
+
+---
+
+## Solution: type inference
+
+```typescript
+let x = 5;
+x = "string"; 
+// compiler error!
+```
+
+equivalent to our earlier code
+
+```typescript
+let x : number = 5;
+```
+
+- Type inference actually dates to 1958
+
+---
+
+## Union types
+
+```typescript
+let x : number | string = 5;
+x = "string";
+// this now passes the type checker
+```
+
+---
+
+## Flow sensitive types
+
+```typescript
+if(typeof x === "number") {
+  return x + 5;
+} else if(typeof x === "string") {
+  return parseInt(x, 10) + 5;
+}
+```
+
+---
+
+## Null
+
+Null was introduced in the ALGOL language by Tony Hoare in 1965.
+
+He calls it "the billion dollar mistake"
+
+```javascript
+let x = null;
+x.doSomething();
+// !!!
+```
+
+---
+
+## Non-nullable types
+
+As of TypeScript 2.0
+
+```typescript
+let age = 67;
+age = undefined; // Error: Age ain't nothin but a number.
+```
+
+---
+
+## Non-nullable types 2
+
+```typescript
+let something : number | undefined;
+
+something = 12345;
+// valid program
+```
+
+---
+
+## Non-nullable types 3
+
+```typescript
+let something? : number;
+
+something = 12345;
+// valid
+```
+
+---
+
+## Interfaces
+
+How do we represent objects?
+
+```javascript
+function printPerson(person) {
+  console.log(person.name, person.occupation);
+}
+
+printPerson({ name: 'Jim', occupation: 'Plumber '});
+```
+
+---
+
+## Interfaces 2
+
+```typescript
+interface Person {
+  name: string;
+  occupation: string;
+}
+
+function printPerson(person: Person) {
+  console.log(person.name, person.occupation);
+}
+
+printPerson({ name: 'Jim', occupation: 'Plumber' });
+```
+
+---
+
+## Structural typing
+
+Languages like Java, C#, etc have "nominative typing"
+
+That is
+```java
+class Person {
+  String name;
+}
+
+class Human {
+  String name;
+}
+```
+
+Person and Human cannot be used interchangably, even though they have the same fields
+
+---
+
+## Structural typing 2
+
+In TypeScript, objects with the same fields are considered *the same*
+
+```typescript
+interface Human {
+  name: string;
+}
+
+interface Person {
+  name: string;
+}
+
+let p: Human = {name: "Jim"};
+p = {name: "Bob"} as Person;
+// valid code
+```
+
+---
+
+## Enumerations
+
+Common construct in other languages
+
+There are various ways to emulate them in JS
+
+```javascript
+const Days = {
+  Sunday: 0,
+  Monday: 1,
+  Tuesday: 2
+  // ...
+}
+```
+
+---
+
+## Enumerations 2
+
+```typescript
+enum Days = {
+  Sunday, // 0
+  Monday, // 1
+  Tuesday // 2
+}
+```
+
+Can also be strings
+
+```typescript
+enum Days = {
+  Sunday = "Sunday",
+  Monday = "Monday",
+  Tuesday = "Tuesday",
+}
+```
+
+---
+
+## Enumerations 3
+
+```typescript
+enum Day = {
+  Sunday,
+  Monday,
+  Tuesday
+}
+
+let day = Sunday;
+// giant switch statement
+switch(day) {
+  case Sunday:
+  case Monday:
+  case Tuesday:
+}
+```
+
+---
+
+## JSX support
+
+For React, etc
+
+JSX support comes out of the box -- no need to use babel
+
+JSX HTML is also typechecked
+
+```
+<div klassName="mispelled"></div>;
+// causes error
+```
+
+---
+
+## Downsides of TypeScript
+
+### JavaScript bindings
+
+1. Sometimes not available
+
+2. Sometimes not up-to-date
+
+3. Sometimes not well-written
+
+4. Writing your own is possible
+
+5. Bindings can introduce additional oddities on top of the normal interface
+
+---
+
+### DefinitelyTyped
+
+`npm install @types/react`
+
+ a repository of type definitions for over 4,000 libraries
+
+---
+
+### Tooling complexity
+
+Any moving part is a problem.
+
+```javascript
+resolve: {
+  extensions: ['.ts', '.tsx', '.js', '.jsx'],
+},
+
+externals: ['window'],
+
+plugins: [
+  new webpack.IgnorePlugin(/^\.\/locale$/),
+  sassExtract,
+  new CheckerPlugin(), // async typescript error reporting
+],
+
+module: {
+  rules: [
+    { test: /\.tsx?$/, loader: 'awesome-typescript-loader' },
+```
+
+---
+
+### Error messages
+
+`Type '{ route: "VIEW_MONTH"; date: Moment; entries: Entry[]; searchResults: undefined; searchString: un...' is not assignable to type 'JournalState'.
+  Type '{ route: "VIEW_MONTH"; date: Moment; entries: Entry[]; searchResults: undefi`
+...
+
+---
+
+### Escape hatches
+
+#### Compiler configuration
+
+- Many things (e.g. non-nullable types) can be disabled on a per-project basis
+- TypeScript compiler will always do its best to produce sensible JavaScript code, even in the
+  presence of errors
+
+---
+
+### Any
+
+you got dynamic types in my static types
+
+```typescript
+let x: any;
+x = 12345;
+x = "cat";
+x = { foo: 'bar' };
+```
+
+Typically you will use `any` when working with libraries for which bindings don't exist
+
+(or if you're lazy...)
+
+---
+
+### Is it worth it?
+
+- TypeScript and static type checking in general are useful insofar as they help us catch errors
+
+- They also force us to make decisions about how a program will be structured early on: this can
+  be both helpful and frustrating
+
+---
+
+### Is it worth it?
+
+- I think so!
+
+- For smaller projects, it may not make sense to add the tooling complexity
+
+- For mature, well-tested JavaScript applications, it may not make sense to port to TypeScript
+
+
+- There is a learning curve
+
+---
+
+### Bonus: Visual Studio Code
+
+- Best JavaScript editor I've ever used
+
+- Can take advantage of TypeScript bindings *even if you don't use TypeScript* for better
+  completions
+
+---
+
+## Thanks for putting up with me.
+
+# [upvalue.io/meetup](https://upvalue.io/meetup)
+
+Slides and code available from here.
+    </textarea>
+    <script src="remark-latest.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var slideshow = remark.create();
+      });
+    </script>
+  </body>
+</html>

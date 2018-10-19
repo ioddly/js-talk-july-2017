@@ -1,0 +1,44 @@
+{
+  "name": "test-talk",
+  "version": "1.0.0",
+  "description": "test talk",
+  "main": "index.js",
+  "jest": {
+    "collectCoverageFrom": [
+      "WikiSearch.js"
+    ],
+    "setupFiles": [
+      "./setupJest.js"
+    ]
+  },
+  "dependencies": {
+    "babel-jest": "^23.6.0",
+    "jest": "^23.6.0",
+    "jest-fetch-mock": "^1.6.6",
+    "lodash": "^4.17.11",
+    "mdx-deck": "^1.7.7",
+    "mdx-deck-code-surfer": "^0.4.1",
+    "polished": "^2.1.1",
+    "raw-loader": "^0.5.1",
+    "react-testing-library": "^5.1.0",
+    "react-tweet-embed": "^1.1.1",
+    "regenerator-runtime": "^0.12.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "coverage": "jest --coverage",
+    "build": "mdx-deck build deck.mdx",
+    "start": "mdx-deck deck.mdx",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/upvalue/test-talk.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/upvalue/test-talk/issues"
+  },
+  "homepage": "https://github.com/upvalue/test-talk#readme"
+}
