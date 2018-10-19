@@ -3,6 +3,8 @@
 A talk about testing React components with Jest & react-testing-library
 I gave at Woodlands Area Software Enthusiasts.
 
+# [Slides](dist/index.html)
+
 # Files
 
 The main sources are
