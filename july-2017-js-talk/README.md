@@ -8,8 +8,8 @@ presentational vs. container components, and other basics of writing vanilla Rea
 
 ## Links
 
-### [View slides](https://rawgit.com/ioddly/js-talk-july-2017/master/slides/index.html#1)
-### [Finished code](https://github.com/ioddly/js-talk-july-2017/blob/master/code/src/index.jsx)
+### [View slides](slides/index.html#1)
+### [Finished code](https://github.com/upvalue/talks/blob/master/july-2017-js-talk/code/src/index.jsx)
 
 ## Concepts mentioned in the talk
 
