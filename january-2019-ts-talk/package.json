@@ -1,0 +1,22 @@
+{
+  "name": "ts-talk",
+  "version": "1.0.0",
+  "description": "typescript talk",
+  "main": "index.js",
+  "dependencies": {
+    "mdx-deck": "^1.8.2",
+    "mdx-deck-code-surfer": "^0.5.3",
+    "polished": "^2.1.1",
+    "raw-loader": "^0.5.1",
+    "regenerator-runtime": "^0.12.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "coverage": "jest --coverage",
+    "build": "mdx-deck build deck.mdx",
+    "start": "mdx-deck deck.mdx",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC"
+}

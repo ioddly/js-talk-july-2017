@@ -1,0 +1,255 @@
+import { CodeSurfer } from 'mdx-deck-code-surfer';
+import { Appear } from 'mdx-deck';
+import codeTheme from 'prism-react-renderer/themes/vsDarkPlus';
+import { ForCSharpProgrammers, CodeSurfHeader } from './deck-components';
+export theme from './theme';
+
+# TypeScript<ForCSharpProgrammers />
+
+---
+
+## About me
+
+```notes
+talk about myself
+plug job opportunity
+```
+
+---
+
+## TypeScript
+
+<Appear>
+  <p>Statically typed superset of JavaScript</p>
+  <p>From Microsoft in 2012</p>
+  <p>Familiar names such as Anders Hejlsberg</p>
+</Appear>
+
+```notes
+- [QUESTION] How many people in here use TypeScript?
+- [QUESTION] How many people have heard of TypeScript
+- I assume you're all in favor of static typing
+- You probably all have to write JavaScript with the same enthusiasm I write Java
+- So I didn't frontload this talk trying to explain JavaScript is or why types for it are a good idea
+- What TypeScript is
+- next
+- how it brings types to JavaScript
+
+```
+
+---
+
+<CodeSurfer
+  code={require("!raw-loader!./first-1.js")}
+  theme={codeTheme}
+/>
+
+---
+
+<CodeSurfer
+  code={require("!raw-loader!./first-2.ts")}
+  theme={codeTheme}
+  steps={[
+    { tokens: { 1: [2,3] } },
+    { range: [1,10] },
+  ]}
+/>
+
+---
+
+<CodeSurfer
+  code={require("!raw-loader!./first-1.js")}
+  theme={codeTheme}
+/>
+
+---
+
+## The TypeScript philosophy
+
+<Appear>
+  <p>TypeScript is not a new programming language</p>
+  <p>Follows the JavaScript language standard and semantics</p>
+  <p><code>console.log(5 + 'cat')</code> is allowed</p>
+  <p>Does not have its own runtime</p>
+</Appear>
+
+
+```notes
+Although it's often billed as a programming language, TypeScript's goal is not to 
+change the semantics of JavaScript
+
+Semantics: '5' + cat is allowed
+
+TypeScript is a compiler that produces JavaScript
+
+This focus is why it is the most popular "types for frontend code" we've seen so far
+```
+
+---
+
+## Differences between C# and TypeScript
+
+TypeScript uses a *structural* type system
+
+C# uses a *nominal* type system
+
+```notes
+En ingles, what does this mean?
+```
+
+---
+
+<CodeSurfer
+  code={require("!raw-loader!./structural.ts")}
+  theme={codeTheme}
+  steps={[
+    { lines: [1, 2, 3] },
+    { lines: [5,6] },
+  ]}
+/>
+
+---
+
+## TypeScript is unsound
+
+```notes
+This sounds scary
+
+I probably sound like a used car salesman at this point
+
+TypeScript has some niceties as a result of this
+```
+
+---
+
+<CodeSurfer
+  code={require("!raw-loader!./anonymous-object.js")}
+  theme={codeTheme}
+/>
+
+---
+
+<CodeSurfer
+  code={require("!raw-loader!./anonymous-object.ts")}
+  theme={codeTheme}
+/>
+
+```notes
+I question the decision to call these interfaces
+```
+
+---
+
+<CodeSurfer
+  code={require("!raw-loader!./anonymous-object-2.ts")}
+  theme={codeTheme}
+/>
+
+```notes
+These are almost exactly equivalent
+```
+
+---
+
+## Nullable types
+
+<Appear>
+  <p>Null was invented in 1965</p>
+  <p>Called "the million dollar mistake"</p>
+  <p>JavaScript adds even more pain</p>
+</Appear>
+
+```notes
+Null was actually invented in 1965
+I know some of you guys were probably in the room that happened
+but it's kind of odd to think about
+
+[QUESTION] How many people are familiar with this in C#?
+```
+
+---
+
+<CodeSurfer
+  code={require("!raw-loader!./nullable-1.ts")}
+/>
+
+---
+
+<CodeSurfer
+  code={require("!raw-loader!./nullable-2.ts")}
+/>
+
+```notes
+This is a type guard
+```
+
+---
+
+<CodeSurfer
+  code={require("!raw-loader!./union-types.ts")}
+/>
+
+---
+
+## And much more
+
+<Appear>
+  <p>Generics</p>
+  <p>Enumerations</p>
+  <p>Literal types</p>
+  <p>Class visibility</p>
+  <p>Decorators</p>
+</Appear>
+
+---
+
+## JavaScript interaction
+
+```notes
+- So far we've talked about how TypeScript helps model JavaScript code
+- How do you use existing JavaScript
+```
+
+---
+
+## Bindings
+
+<Appear>
+  <p>Hopefully first-party</p>
+  <p>DefinitelyTyped</p>
+  <code>npm install @types/mylibrary</code>
+  <p>🙏</p>
+  <p>Roll your own</p>
+</Appear>
+
+---
+
+## Any
+
+```notes
+- Don't reach for this first
+- You'll get in trouble with me at code review time
+```
+
+---
+
+## The future is bright
+
+- TypeScript adoption is increasing
+
+---
+
+## Where to go next?
+
+```notes
+TypeScript playground
+
+```
+
+---
+
+## Questions?
+
+```notes
+- What questions do you all have?
+```

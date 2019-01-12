@@ -1,5 +1,18 @@
 This is a monorepo for all my talks: slides, code, repos. 
 
+To view the slides, visit [https://upvalue.github.io/talks](https://upvalue.github.io/talks)
+
+# [January 2019: TypeScript for C# Programmers](january-2019-ts-talk)
+
+A lightning talk introduction to TypeScript for C# programmers. Goes over:
+
+- What TypeScript is
+- The TypeScript philosophy,
+- The difference between the type systems of TypeScript and traditional OOP languages
+- Cool type system features available in TypeScript
+- How TypeScript interfaces the wider JavaScript world
+- Where to go next
+
 # [October 2018: Frontend Testing with React, Jest & react-testing-library](october-2018-test-talk)
 
 A guide to frontend testing with React, jest and react-testing-library. Talks about how React's unidirectional data
