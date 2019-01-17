@@ -1,6 +1,6 @@
-function parseString(name: string | number) {
-  if (typeof name === 'string') {
-    return parseInt(name, 10);
+function stringToNumber(value: string | number) {
+  if (typeof value === 'string') {
+    return parseInt(value, 10);
   }
-  return name;
+  return value;
 }

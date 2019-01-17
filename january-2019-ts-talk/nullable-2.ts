@@ -1,5 +1,5 @@
-let myString: string | null = null;
-
-if (myString !== null) {
-  console.log(myString.toUpperCase());
+function uppercaseString(str: string | null) {
+  if (str !== null) {
+    return (str.toUpperCase());
+  }
 }
