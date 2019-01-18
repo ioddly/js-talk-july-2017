@@ -2,7 +2,7 @@
 
 A lightning talk I gave at [North Houston .NET Users Group](https://www.nhdnug.org/) about TypeScript in January 2019.
 
-# [Repository](https://github.com/upvalue/talks)
+# [Repository](https://github.com/upvalue/talks/january-2019-ts-talk)
 
 # [Slides](dist/index.html)
 
