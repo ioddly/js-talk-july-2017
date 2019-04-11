@@ -17,8 +17,8 @@ A lightning talk introduction to TypeScript for C# programmers. Goes over:
 
 A guide to frontend testing with React, jest and react-testing-library. Talks about how React's unidirectional data
 flow lends itself well to testing, and discusses how to conceptualize tests in terms of inputs and outputs, applying
-the simple `assert square(8) == 64` style of tests in every testing library's documentation to a real, advanced
-program.
+the simple `assert square(8) == 64` style of tests in every testing library's documentation to a real program with
+integration tests.
 
 # [April 2018: You Got Types In My JavaScript](april-2018-ts-talk)
 
